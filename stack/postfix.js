@@ -1,4 +1,3 @@
-// Stack class
 class Stack {
 
 	// Array is used to implement stack
@@ -51,29 +50,45 @@ class Stack {
 
 }
 
-// creating object for stack class
-var stack = new Stack();
+// Performs Postfix Evaluation on a given exp
+function postFixEvaluation(exp)
+{
+	var stack = new Stack();
+	for (var i = 0; i < exp.length; i++) {
+		var c = exp[i];
+		if (!isNaN(c))
+			stack.push(c - '0');
+		else {
+			var val1 = stack.pop();
+			var val2 = stack.pop();
+			if (val1 == "Underflow" || val2 == "Underflow")
+				return "Can't perform postfix evaluation";
+			switch (c) {
+			case '+':
+				stack.push(val2 + val1);
+				break;
 
-// returns false
-console.log(stack.isEmpty());
+			case '-':
+				stack.push(val2 - val1);
+				break;
 
-// returns Underflow
-console.log(stack.pop());
+			case '/':
+				stack.push(val2 / val1);
+				break;
 
-// Adding element to the stack
-stack.push(10);
-stack.push(20);
-stack.push(30);
+			case '*':
+				stack.push(val2 * val1);
+				break;
+			}
+		}
+	}
 
-// Printing the stack element
-// prints [10, 20, 30]
-console.log(stack.printStack());
+	return stack.pop();
+}
 
-// returns 30
-console.log(stack.peek());
+// calling the above method
+// returns 9
+console.log(postFixEvaluation("235*+8-"));
 
-// returns 30 and remove it from stack
-console.log(stack.pop());
-
-// returns [10, 20]
-console.log(stack.printStack());
+// returns postfix evaluation can't be performed
+console.log(postFixEvaluation("23*+"));
